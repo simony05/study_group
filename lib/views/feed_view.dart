@@ -21,7 +21,7 @@ class _FeedViewState extends State<FeedView> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
           .collection('groups')
-          .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          //.where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {

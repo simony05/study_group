@@ -53,7 +53,20 @@ class PostCard extends StatelessWidget {
                   CupertinoIcons.ellipses_bubble,
                   color: Colors.green,
                 )
-              )
+              ),
+              (snap['uid'] == FirebaseAuth.instance.currentUser!.uid) 
+                ? IconButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute
+                    (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
+                    ),
+                  ),
+                  icon: const Icon(
+                    CupertinoIcons.delete,
+                    color: Colors.red,
+                  )
+                )
+                : Container(),
             ],
           ),
           Text(
@@ -84,5 +97,14 @@ Future<void> attendingGroup(String postId, String uid, List attending) async {
   }
   catch (e) {
     print(e.toString(),);
+  }
+}
+
+Future<void> deletePost(String postId) async {
+  try {
+    FirebaseFirestore.instance.collection('groups').doc(postId).delete();
+  }
+  catch (e) {
+    print(e.toString());
   }
 }
