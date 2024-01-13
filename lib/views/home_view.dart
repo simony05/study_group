@@ -50,7 +50,6 @@ class _HomeViewState extends State<HomeView> {
               switch (value) {
                 case MenuAction.logout:
                   final shouldLogout = await showLogOutDialog(context);
-                  //devtools.log(shouldLogout.toString());
                   if (shouldLogout) {
                     await AuthService.firebase().logOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -59,8 +58,6 @@ class _HomeViewState extends State<HomeView> {
                     );
                   }
               }
-              // devtools.log(value.toString()); 
-              // logs value MenuAction.logout to output
             },
             itemBuilder: (context) {
               return const [
