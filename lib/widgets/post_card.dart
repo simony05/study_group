@@ -56,11 +56,14 @@ class PostCard extends StatelessWidget {
               ),
               (snap['uid'] == FirebaseAuth.instance.currentUser!.uid) 
                 ? IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute
-                    (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
-                    ),
-                  ),
+                  onPressed: () async {
+                    final shouldDeleteGroup = await deleteGroupDialog(context);
+                    if (shouldDeleteGroup) {
+                      deleteGroup(snap['postId']);
+                    }
+                  }
+                    
+                  ,
                   icon: const Icon(
                     CupertinoIcons.delete,
                     color: Colors.red,
@@ -100,11 +103,37 @@ Future<void> attendingGroup(String postId, String uid, List attending) async {
   }
 }
 
-Future<void> deletePost(String postId) async {
+Future<void> deleteGroup(String postId) async {
   try {
     FirebaseFirestore.instance.collection('groups').doc(postId).delete();
   }
   catch (e) {
     print(e.toString());
   }
+}
+
+Future<bool> deleteGroupDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Delete Group'),
+        content: const Text('Are you sure you want to delete this study group?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Cancel')
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Delete')
+          ),
+        ]
+      );
+    },
+  ).then((value) => value ?? false);
 }
