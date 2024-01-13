@@ -46,7 +46,7 @@ class PostCard extends StatelessWidget {
               IconButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute
-                  (builder: (context) => CommentsView(postId: snap['postId']),
+                  (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
                   ),
                 ),
                 icon: const Icon(

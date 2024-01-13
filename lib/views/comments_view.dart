@@ -6,7 +6,8 @@ import 'package:uuid/uuid.dart';
 
 class CommentsView extends StatefulWidget {
   final postId;
-  const CommentsView({super.key, required this.postId});
+  final hostName;
+  const CommentsView({super.key, required this.postId, required this.hostName});
 
   @override
   State<CommentsView> createState() => _CommentsViewState();
@@ -21,8 +22,8 @@ class _CommentsViewState extends State<CommentsView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Comments',
+        title: Text(
+          "${widget.hostName}'s Study Group",
         ),
         centerTitle: false,
       ),
@@ -31,6 +32,7 @@ class _CommentsViewState extends State<CommentsView> {
             .collection('groups')
             .doc(widget.postId)
             .collection('comments')
+            .orderBy('timestamp', descending: false)
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -62,8 +64,8 @@ class _CommentsViewState extends State<CommentsView> {
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
                     controller: commentEditingController,
-                    decoration: InputDecoration(
-                      hintText: 'Comment as ${FirebaseAuth.instance.currentUser!.displayName}',
+                    decoration: const InputDecoration(
+                      hintText: 'Send a message...',
                       border: InputBorder.none,
                     ),
                   ),
@@ -73,7 +75,6 @@ class _CommentsViewState extends State<CommentsView> {
                 onTap: () {
                   var uuid = Uuid();
                   var v1 = uuid.v1();
-                  print(widget.postId);
                   FirebaseFirestore.instance
                     .collection('groups')
                     .doc(widget.postId)

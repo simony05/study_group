@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:study_group/widgets/post_card.dart';
 
@@ -18,7 +19,10 @@ class _FeedViewState extends State<FeedView> {
         title: const Text('Groups'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('groups').snapshots(),
+        stream: FirebaseFirestore.instance
+          .collection('groups')
+          .where('uid', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
