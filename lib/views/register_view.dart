@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:study_group/constants/routes.dart';
 import 'package:study_group/services/auth/auth_exceptions.dart';
@@ -16,12 +18,14 @@ class _RegisterViewState extends State<RegisterView> {
   // late promises a value later
   late final TextEditingController _email; 
   late final TextEditingController _password;
+  late final TextEditingController _name;
 
   // assigns values to email and password
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    _name = TextEditingController();
     super.initState();
   }
 
@@ -30,6 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _name.dispose();
     super.dispose();
   }
 
@@ -41,6 +46,14 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       body: Column(
         children: [
+          TextField(
+            controller: _name,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: const InputDecoration(
+              hintText: 'Enter your full name here',
+            ),
+          ),
           TextField(
             controller: _email,
             enableSuggestions: false,
@@ -61,15 +74,21 @@ class _RegisterViewState extends State<RegisterView> {
           ),
           TextButton(
             onPressed: () async {
+              final name = _name.text;
               final email = _email.text;
               final password = _password.text; 
               try {
-              // returns future, needs await to perform the work
                 await AuthService.firebase().createUser(
                   email: email, 
                   password: password,
                 );
-                // sends verification right when user registers
+                FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+                  'name': name,
+                  'uid': FirebaseAuth.instance.currentUser!.uid,
+                  'email': email,
+                });
+                final user = FirebaseAuth.instance.currentUser;
+                user!.updateDisplayName(name);
                 AuthService.firebase().sendEmailVerification();
                 Navigator.of(context).pushNamed(
                   verifyEmailRoute, 
@@ -84,7 +103,7 @@ class _RegisterViewState extends State<RegisterView> {
               on EmailAlreadyInUseAuthException {
                 await showErrorDialog(
                   context, 
-                  'Email is already in use',
+                  'Email already in use',
                 );
               }
               on InvalidEmailAuthException {

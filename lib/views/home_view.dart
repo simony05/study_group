@@ -1,21 +1,49 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:study_group/constants/homescreen_items.dart';
 import 'package:study_group/constants/routes.dart';
 import 'package:study_group/enums/menu_action.dart';
 import 'package:study_group/services/auth/auth_service.dart';
 
-class NotesView extends StatefulWidget {
-  const NotesView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<NotesView> createState() => _NotesViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _NotesViewState extends State<NotesView> {
+class _HomeViewState extends State<HomeView> {
+  int _page = 0;
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  void navigationTapped(int page) {
+    pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      _page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notes'),
+        title: const Text('Home'),
         actions: [
           PopupMenuButton<MenuAction>( 
             onSelected: (value) async {
@@ -45,7 +73,37 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
-      body: const Text('Hello world!'),
+      body: PageView(
+        children: homeScreenItems,
+        controller: pageController,
+        onPageChanged: onPageChanged,
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: _page == 0 ? Colors.blue : Colors.white,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle,
+              color: _page == 1 ? Colors.blue : Colors.white,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 2 ? Colors.blue : Colors.white,
+            ),
+            label: '',
+          ),
+        ],
+        onTap: navigationTapped,
+      )
     );
   }
 }
@@ -55,8 +113,8 @@ Future<bool> showLogOutDialog(BuildContext context) {
     context: context, 
     builder: (context) {
       return AlertDialog(
-        title: const Text('Sign out'),
-        content: const Text('Are you sure you want to sign out?'),
+        title: const Text('Log out'),
+        content: const Text('Are you sure you want to log out?'),
         actions: [
           TextButton(
             onPressed: () {
