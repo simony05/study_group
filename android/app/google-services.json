@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487078902079",
+    "project_id": "sb-hacks-studygroup",
+    "storage_bucket": "sb-hacks-studygroup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487078902079:android:857bae00a025b8f3137b8a",
+        "android_client_info": {
+          "package_name": "com.example.study_group"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq_rU9dZdm5SoGvExT94WOAhvILzdzmVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
