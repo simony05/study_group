@@ -43,7 +43,9 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        backgroundColor: Color.fromRGBO(0, 102, 204,.5),
+        title: const Text('Brainwave',
+        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
         actions: [
           PopupMenuButton<MenuAction>( 
             onSelected: (value) async {
@@ -76,18 +78,19 @@ class _HomeViewState extends State<HomeView> {
         onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: Colors.black,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: _page == 0 ? Colors.blue : Colors.white,
+              color: _page == 0 ? Color.fromRGBO(0, 102, 204,1) : Colors.white,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_circle,
-              color: _page == 1 ? Colors.blue : Colors.white,
+              color: _page == 1 ? Color.fromRGBO(0, 102, 204, 1) : Colors.white,
             ),
             label: '',
           ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:study_group/constants/routes.dart';
 import 'package:uuid/uuid.dart';
 
 class HostGroupView extends StatefulWidget {
@@ -14,12 +15,14 @@ class _HostGroupViewState extends State<HostGroupView> {
   final TextEditingController _subject = TextEditingController();
   final TextEditingController _time = TextEditingController();
   final TextEditingController _description = TextEditingController();
+  final TextEditingController _location = TextEditingController();
 
   @override
   void dispose() {
     _subject.dispose();
     _time.dispose();
     _description.dispose();
+    _location.dispose();
     super.dispose();
   }
 
@@ -27,8 +30,12 @@ class _HostGroupViewState extends State<HostGroupView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 102, 204, 0.50),
       appBar: AppBar(
-        title: const Text("Host group"),
+        backgroundColor: Colors.black,
+        title: const Text(
+          "Host a group",
+          style: TextStyle(color: Colors.white),),
         centerTitle: false,
         actions: [
           TextButton(
@@ -41,6 +48,7 @@ class _HostGroupViewState extends State<HostGroupView> {
                 'time': _time.text,
                 'description': _description.text,
                 'attending': [],
+                'location': _location.text,
                 'timestamp': DateTime.now().millisecondsSinceEpoch,
                 'name': FirebaseAuth.instance.currentUser!.displayName,
                 'uid': FirebaseAuth.instance.currentUser!.uid,
@@ -49,6 +57,11 @@ class _HostGroupViewState extends State<HostGroupView> {
               _subject.clear();
               _time.clear();
               _description.clear();
+              _location.clear();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                homeRoute, 
+                (_) => false,
+              );
             }, 
             child: const Text(
               'Post',
@@ -61,30 +74,40 @@ class _HostGroupViewState extends State<HostGroupView> {
           )
         ],
       ),
-    body: Column(
-      children: [
-        TextField(
-          controller: _subject,
-          decoration: const InputDecoration(
-            hintText: 'Subject',
+    body: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          TextField(
+            controller: _subject,
+            decoration: const InputDecoration(
+              hintText: 'Subject',
+            ),
+            maxLines: 1,
           ),
-          maxLines: 1,
-        ),
-        TextField(
-          controller: _time,
-          decoration: const InputDecoration(
-            hintText: 'Time',
+          TextField(
+            controller: _time,
+            decoration: const InputDecoration(
+              hintText: 'Time - Day',
+            ),
+            maxLines: 1,
           ),
-          maxLines: 1,
-        ),
-        TextField(
-          controller: _description,
-          decoration: const InputDecoration(
-            hintText: 'Description',
+          TextField(
+            controller: _location,
+            decoration: const InputDecoration(
+              hintText: 'Location',
+            ),
+            maxLines: 1,
           ),
-          maxLines: 4,
-        ),
-      ],
+          TextField(
+            controller: _description,
+            decoration: const InputDecoration(
+              hintText: 'Description',
+            ),
+            maxLines: 4,
+          ),
+        ],
+      ),
     ),
     );
   }

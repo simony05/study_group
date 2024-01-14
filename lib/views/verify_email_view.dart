@@ -15,15 +15,20 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     return Scaffold
     ( 
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(0, 102, 204,.5),
         title: const Text('Verify email'),
       ),
       body: Column(
           children: [
-            const Text(
-              "Verify your email account"
+            Center(
+              child: const Text(
+                "Verify your email account"
+              ),
             ),
-            const Text(
-              "We've sent you a verification link"
+            Center(
+              child: const Text(
+                "We've sent you a verification link"
+              ),
             ),
             TextButton(
               onPressed: () async {

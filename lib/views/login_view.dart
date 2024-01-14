@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:study_group/constants/routes.dart';
 import 'package:study_group/services/auth/auth_exceptions.dart';
 import 'package:study_group/services/auth/auth_service.dart';
 import 'package:study_group/utilities/show_error_dialog.dart';
+
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -34,7 +36,8 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        backgroundColor: const Color.fromRGBO(0, 102, 204,.5),
+        title: const Text('Brainwave'),
       ),
       body: SafeArea(
         child: Container(

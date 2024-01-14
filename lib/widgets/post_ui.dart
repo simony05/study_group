@@ -17,7 +17,7 @@ class Post extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(
+          border: const Border(
             right: BorderSide( //                   <--- left side
               color: Colors.white,
               width: 3.0,
@@ -40,7 +40,7 @@ class Post extends StatelessWidget {
               color: Colors.grey.withOpacity(0.75),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
           color: Colors.black,
@@ -54,18 +54,21 @@ class Post extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 6.5),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 6.5),
                   child: Container(
-                    child: Text(snap['subject'], style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                     //color: Colors.white,
                     alignment: Alignment.centerLeft,
+                    child: Text(snap['subject'], style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                   )
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 6.5),
-                  child: Container(
-                    child: Text(snap['time'], style: TextStyle(color: Colors.white),),
-                  ),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 6.5),
+                  child: Text(
+                    'Posted by ${snap['name']} on ${DateFormat('MM/dd').format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                      snap['timestamp']
+                    ),)}'
+                 , style: const TextStyle(color: Colors.white, fontSize: 10.0),),
                 ),
               ],
             ),
@@ -73,7 +76,7 @@ class Post extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -82,7 +85,7 @@ class Post extends StatelessWidget {
                     height: 100,// <-- Fixed width.
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 102, 204, 0.5),
+                        color: const Color.fromRGBO(0, 102, 204, 0.5),
                         border: Border.all(
                           color: Colors.white,
                           width: 2,
@@ -92,8 +95,7 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Time', style: TextStyle(color: Colors.white)),
-                          Text('Date', style: TextStyle(color: Colors.white)),
+                          Text(snap['time'], style: TextStyle(color: Colors.white)),
                         ],
                       ),
                       //color: Colors.lightGreen,
@@ -104,7 +106,7 @@ class Post extends StatelessWidget {
                     height: 100,// <-- Fixed width.
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 102, 204, 0.5),
+                        color: const Color.fromRGBO(0, 102, 204, 0.5),
                         border: Border.all(
                           color: Colors.white,
                           width: 2,
@@ -114,8 +116,8 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Location', style: TextStyle(color: Colors.white)),
-                          Text('Place', style: TextStyle(color: Colors.white)),
+                          Text(snap['location'], style: TextStyle(color: Colors.white)),
+                         
                         ],
                       ),
 
@@ -126,7 +128,7 @@ class Post extends StatelessWidget {
                     height: 100,// <-- Fixed width.
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 102, 204, 0.50),
+                        color: const Color.fromRGBO(0, 102, 204, 0.50),
                         border: Border.all(
                           color: Colors.white,
                           width: 2,
@@ -136,8 +138,12 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Attending', style: TextStyle(color: Colors.white)),
-                          Text('${snap['attending'].length}', style: TextStyle(color: Colors.white)),
+                          Text(
+                            'Attending', 
+                            style: TextStyle(color: Colors.white)),
+                          Text(
+                            '${snap['attending'].length}', 
+                            style: TextStyle(color: Colors.white)),
                         ],
                       ),
                     ),
@@ -160,8 +166,12 @@ class Post extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(5),
-                      child: Container(
-                        child: Text('Description:', style: TextStyle(color: Colors.white)),
+                      child: Column(
+                        children: [
+                          Text('Description:', style: TextStyle(color: Colors.white)),
+                          Text(snap['description']
+                          , style: TextStyle(color: Colors.white)),
+                        ],
                       ),
                     ),
                   ),
@@ -173,44 +183,45 @@ class Post extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute
-                    (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
-                    ),
-                  ),
-                  icon: const Icon(
-                    CupertinoIcons.ellipses_bubble,
-                    color: Colors.green,
-                  )
+              IconButton(
+                onPressed: () async { 
+                  await attendingGroup(
+                    snap['postId'],
+                    FirebaseAuth.instance.currentUser!.uid,
+                    snap['attending'],
+                  ); 
+                },
+                icon: const Icon(
+                  CupertinoIcons.checkmark_circle,
+                  color: Colors.green,
                 ),
-                IconButton(
-                  onPressed: () async { 
-                    await attendingGroup(
-                      snap['postId'],
-                      FirebaseAuth.instance.currentUser!.uid,
-                      snap['attending'],
-                    ); 
-                  },
-                  icon: const Icon(
-                    CupertinoIcons.checkmark_circle,
-                    color: Colors.green,
+              ),
+              IconButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute
+                  (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
                   ),
                 ),
-                (snap['uid'] == FirebaseAuth.instance.currentUser!.uid) 
+                icon: const Icon(
+                  CupertinoIcons.ellipses_bubble,
+                  color: Colors.green,
+                )
+              ),
+              (snap['uid'] == FirebaseAuth.instance.currentUser!.uid) 
                 ? IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute
-                    (builder: (context) => CommentsView(postId: snap['postId'], hostName: snap['name']),
-                    ),
-                  ),
+                  onPressed: () async {
+                    final shouldDeleteGroup = await deleteGroupDialog(context);
+                    if (shouldDeleteGroup) {
+                      deleteGroup(snap['postId']);
+                    }
+                  },
                   icon: const Icon(
                     CupertinoIcons.delete,
                     color: Colors.red,
                   )
                 )
                 : Container(),
-              ]
+            ],
             ),
 
           ],
@@ -238,7 +249,7 @@ Future<void> attendingGroup(String postId, String uid, List attending) async {
   }
 }
 
-Future<void> deletePost(String postId) async {
+Future<void> deleteGroup(String postId) async {
   try {
     FirebaseFirestore.instance.collection('groups').doc(postId).delete();
   }
@@ -247,3 +258,28 @@ Future<void> deletePost(String postId) async {
   }
 }
 
+Future<bool> deleteGroupDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Delete Group'),
+        content: const Text('Are you sure you want to delete this study group?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Cancel')
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Delete')
+          ),
+        ]
+      );
+    },
+  ).then((value) => value ?? false);
+}
