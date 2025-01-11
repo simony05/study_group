@@ -43,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 102, 204,.5),
+        backgroundColor: const Color.fromRGBO(0, 102, 204,.5),
         title: const Text('Brainwave',
         style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
         actions: [
@@ -73,9 +73,9 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: PageView(
-        children: homeScreenItems,
         controller: pageController,
         onPageChanged: onPageChanged,
+        children: homeScreenItems,
       ),
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: Colors.black,
@@ -83,14 +83,14 @@ class _HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: _page == 0 ? Color.fromRGBO(0, 102, 204,1) : Colors.white,
+              color: _page == 0 ? const Color.fromRGBO(0, 102, 204,1) : Colors.white,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_circle,
-              color: _page == 1 ? Color.fromRGBO(0, 102, 204, 1) : Colors.white,
+              color: _page == 1 ? const Color.fromRGBO(0, 102, 204, 1) : Colors.white,
             ),
             label: '',
           ),

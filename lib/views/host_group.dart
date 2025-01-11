@@ -30,7 +30,7 @@ class _HostGroupViewState extends State<HostGroupView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 102, 204, 0.50),
+      backgroundColor: const Color.fromRGBO(0, 102, 204, 0.50),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
@@ -40,7 +40,7 @@ class _HostGroupViewState extends State<HostGroupView> {
         actions: [
           TextButton(
             onPressed: () {
-              var uuid = Uuid();
+              var uuid = const Uuid();
               var v1 = uuid.v1();
               Map<String, dynamic> dataToSave = {
                 'postId': v1,

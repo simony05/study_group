@@ -73,7 +73,7 @@ class _CommentsViewState extends State<CommentsView> {
               ),
               InkWell(
                 onTap: () {
-                  var uuid = Uuid();
+                  var uuid = const Uuid();
                   var v1 = uuid.v1();
                   FirebaseFirestore.instance
                     .collection('groups')
@@ -109,7 +109,7 @@ class _CommentsViewState extends State<CommentsView> {
 Future<String> comment(String postId, String text, String uid, String name) async {
   try {
     if(text.isNotEmpty) {
-      var uuid = Uuid();
+      var uuid = const Uuid();
       var v1 = uuid.v1();
       FirebaseFirestore.instance
       .collection('groups')

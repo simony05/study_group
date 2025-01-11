@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:study_group/widgets/post_ui.dart';
 
@@ -14,7 +13,7 @@ class _FeedViewState extends State<FeedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 102, 204, 0.50),
+      backgroundColor: const Color.fromRGBO(0, 102, 204, 0.50),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,

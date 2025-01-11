@@ -95,7 +95,7 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(snap['time'], style: TextStyle(color: Colors.white)),
+                          Text(snap['time'], style: const TextStyle(color: Colors.white)),
                         ],
                       ),
                       //color: Colors.lightGreen,
@@ -116,7 +116,7 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(snap['location'], style: TextStyle(color: Colors.white)),
+                          Text(snap['location'], style: const TextStyle(color: Colors.white)),
                          
                         ],
                       ),
@@ -138,12 +138,12 @@ class Post extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
+                          const Text(
                             'Attending', 
                             style: TextStyle(color: Colors.white)),
                           Text(
                             '${snap['attending'].length}', 
-                            style: TextStyle(color: Colors.white)),
+                            style: const TextStyle(color: Colors.white)),
                         ],
                       ),
                     ),
@@ -157,7 +157,7 @@ class Post extends StatelessWidget {
                 child: Container(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 102, 204, 0.50),
+                      color: const Color.fromRGBO(0, 102, 204, 0.50),
                       border: Border.all(
                         color: Colors.white,
                         width: 2,
@@ -165,12 +165,12 @@ class Post extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       child: Column(
                         children: [
-                          Text('Description:', style: TextStyle(color: Colors.white)),
+                          const Text('Description:', style: TextStyle(color: Colors.white)),
                           Text(snap['description']
-                          , style: TextStyle(color: Colors.white)),
+                          , style: const TextStyle(color: Colors.white)),
                         ],
                       ),
                     ),

@@ -5,7 +5,6 @@ import 'package:study_group/views/home_view.dart';
 import 'package:study_group/views/register_view.dart';
 import 'package:study_group/views/verify_email_view.dart';
 import 'package:study_group/constants/routes.dart';
-import 'package:wavy_slider/wavy_slider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

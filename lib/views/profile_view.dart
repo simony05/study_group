@@ -16,13 +16,13 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     bool host = true;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 102, 204, 0.50),
+      backgroundColor: const Color.fromRGBO(0, 102, 204, 0.50),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Center(
           child: Text(
             FirebaseAuth.instance.currentUser!.displayName ?? "Unnamed",
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         centerTitle: false,
@@ -67,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (snapshot.data!.docs.length == 0) {
+                    if (snapshot.data!.docs.isEmpty) {
                       return Container();
                     }
                     return ListView.builder(
